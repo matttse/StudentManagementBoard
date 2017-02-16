@@ -5,12 +5,13 @@ package model;
 
 
 /**
- * @author CH165496
+ * @ClassName Student
+ * @author Matthew Tse
  *
  */
 public class Student extends Person {
 	
-	protected String id;
+	public String id;
 	
 
 	/**

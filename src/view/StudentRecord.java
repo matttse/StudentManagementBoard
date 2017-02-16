@@ -1,5 +1,6 @@
 package view;
 
+import model.Student;
 import dhl.UserInputHandler;
 
 /**
@@ -35,7 +36,10 @@ public class StudentRecord<E> {
 					.concat("\n").concat(optionZero).concat("\t")), 0);
 
 			int select = Integer.parseInt(option);
-
+			Student stud = new Student();
+			GNode<Student> student = new GNode<Student>(stud);
+			StudentRecord<GNode> course = new StudentRecord<GNode>();
+			
 			if (select > 5 || select < 0) {// Valid options
 
 				System.out.print("Please select a valid option");
@@ -43,6 +47,11 @@ public class StudentRecord<E> {
 			} else if (select == 1) {//Add a Student
 				//name
 				//id
+				
+				stud.id = processInput.getNum("Student ID: ", 1);
+//				course.addToHead(student);
+//				course.printList();
+				
 			
 			} else if (select == 2) {//Add a Course to Student Record
 				//enter id
@@ -53,7 +62,7 @@ public class StudentRecord<E> {
 				//enter course number
 			
 			} else if (select == 4) {//Print Record
-
+				//enter id
 
 				
 			} else { //exit

@@ -25,7 +25,7 @@ public class Student extends Person {
 	/**
 	 * @return the id
 	 */
-	protected String getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -33,7 +33,7 @@ public class Student extends Person {
 	/**
 	 * @param id the id to set
 	 */
-	protected void setId(String id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

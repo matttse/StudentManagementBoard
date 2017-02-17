@@ -13,37 +13,37 @@ public abstract class Person {
 	/**
 	 * @return the fName
 	 */
-	protected String getFName() {
+	public String getFName() {
 		return FName;
 	}
 	/**
 	 * @param fName the fName to set
 	 */
-	protected void setFName(String fName) {
+	public void setFName(String fName) {
 		FName = fName;
 	}
 	/**
 	 * @return the lName
 	 */
-	protected String getLName() {
+	public String getLName() {
 		return LName;
 	}
 	/**
 	 * @param lName the lName to set
 	 */
-	protected void setLName(String lName) {
+	public void setLName(String lName) {
 		LName = lName;
 	}
 	/**
 	 * @return the age
 	 */
-	protected int getAge() {
+	public int getAge() {
 		return Age;
 	}
 	/**
 	 * @param age the age to set
 	 */
-	protected void setAge(int age) {
+	public void setAge(int age) {
 		Age = age;
 	}
 	

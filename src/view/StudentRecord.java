@@ -2,6 +2,7 @@ package view;
 
 import model.Student;
 import model.Course;
+
 import java.util.TreeMap;
 
 import dhl.UserInputHandler;
@@ -16,6 +17,7 @@ import dhl.UserInputHandler;
 public class StudentRecord<E> {
 	public Student student = new Student();
 	public Course<String> course = new Course<String>();
+	
 	/**
 	 * @return the stud
 	 */
@@ -87,23 +89,32 @@ public class StudentRecord<E> {
 				
 			
 			} else if (select == 2) {//Add a Course to Student Record
-				//enter id
+
 				//course alphaNum
 				StudentRecord<Student> studentRec = new StudentRecord<Student>();
+				//enter id
 				studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+				//Check Student ID
 				while (studentRec == null) {
 					System.out.println("Student does not exist");
 					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 
 				} 
-				Course<String> course = new Course<String>();				
-				course.addToHead((String) processInput.getAlphaNum("Course Name/ID: "));
+				//Add Course to List
+				studentRec.course.addToHead((String) processInput.getAlphaNum("Course Name/ID: "));
+				//enter Credits
+				studentRec.course.setCredits(Integer.parseInt(processInput.getNum("Number of Credits: ", 1)));
+				//check Credits
+				while (studentRec.course.credits > 4 || studentRec.course.credits < 1) {
+					System.out.println("Credits cannot be more than 4.0 or less than 1.0");
+					studentRec.course.setCredits(Integer.parseInt(processInput.getNum("Number of Credits: ", 1)));
+//					studentRec.course.credits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
+				}
+				
 				studentRec.setStud(studentRec.student);
-				studentRec.setCourse(course);
-				StudentCollection.put(studentRec.student.id, studentRec);
 
-//				processInput.getAlphaNum("Course Name/ID: "));
-			
+				StudentCollection.put(studentRec.student.id, studentRec); 
+				
 			} else if (select == 3) {//Delete
 				//enter id
 				//enter course number
@@ -117,8 +128,11 @@ public class StudentRecord<E> {
 					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 
 				} 
-//				for (int i = 0; i < studentRec.course.size(); i++) {
-					studentRec.course.printList();	
+//				studentRec.course.printCourses();
+				studentRec.course.printCourseDetails();
+//				for (int i = 0; i < studentRec.course.size(); i++) {	
+//					System.out.println("Course: " + studentRec.course + "\t" + studentRec.course.credits);
+//					
 //				}
 				
 

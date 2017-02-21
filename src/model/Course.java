@@ -8,7 +8,9 @@ package model;
  * @author Matthew Tse
  *
  */
-public class Course<E> {
+public class Course<E> extends CourseDetails<E> {
+	
+	
 	/** Nested class
 	 * GNode is a generic class representing a node in a list
 	 * E is generic type parameter of data
@@ -34,7 +36,7 @@ public class Course<E> {
         public void setNext(GNode<E> p) { next = (GNode<E>) p; }
 	}
    
-   	
+   private GNode<E> letterGrade;
    private GNode<E> head;
    private GNode<E> tail;
    private int size;       // number of nodes in a list
@@ -116,6 +118,7 @@ public class Course<E> {
 			}
 			else{
 				if (findNode(head, e) == null) {
+//					letterGrade.setData(e);
 					temp.setNext(head);
 					head.setPrevious(temp);
 					head = temp;
@@ -408,8 +411,8 @@ public class Course<E> {
 		return stat;
 	}
 
-	public void printList(){
-		System.out.print("Number of nodes = " + size + ", List is: ");
+	public void printCourses(){
+		System.out.print("Number of Courses = " + size + "\nCourse List is: ");
 		if (head != null){
 			GNode<E> current = head;
 		    while (current != null){
@@ -418,10 +421,45 @@ public class Course<E> {
 		   }
 		}
 		else {
-			System.out.println("The list is empty");
+			System.out.println("The Course List is empty");
 		}
 		System.out.println();
-	}		
+	}
+	
+	public void printCourseDetails(){
+		System.out.print("Number of Courses = " + size + "\nCourse List is:\n");
+		if (head != null){
+			GNode<E> current = head;
+//			getCredits();
+			Course<E> course = new Course<E>();
+			
+			
+		    while (current != null){
+			   System.out.print(current.data + ":\t");
+			   System.out.println(course.getCredits() + " ");
+			   current = (GNode<E>) current.getNext();
+		   }
+		}
+		else {
+			System.out.println("The Course List is empty");
+		}
+		System.out.println();
+	}
+
+	/**
+	 * @return the letterGrade
+	 */
+	protected GNode<E> getLetterGrade() {
+		return letterGrade;
+	}
+
+	/**
+	 * @param letterGrade the letterGrade to set
+	 */
+	protected void setLetterGrade(GNode<E> letterGrade) {
+		this.letterGrade = letterGrade;
+	}
+
 
 	
 }

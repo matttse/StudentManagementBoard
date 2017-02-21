@@ -14,36 +14,37 @@ import dhl.UserInputHandler;
  *
  */
 public class StudentRecord<E> {
+	public Student student = new Student();
+	public Course<String> course = new Course<String>();
 	/**
 	 * @return the stud
 	 */
-	protected Student getStud() {
+	public Student getStud() {
 		return student;
 	}
 
 	/**
 	 * @param stud the stud to set
 	 */
-	protected void setStud(Student student) {
+	public void setStud(Student student) {
 		this.student = student;
 	}
 
 	/**
 	 * @return the course
 	 */
-	protected Course<Student> getCourse() {
+	public Course<String> getCourse() {
 		return course;
 	}
 
 	/**
 	 * @param course the course to set
 	 */
-	protected void setCourse(Course<Student> course) {
+	public void setCourse(Course<String> course) {
 		this.course = course;
 	}
 
-	public Student student = new Student();
-	public Course<Student> course = new Course<Student>();
+
 	// Main method
 	public static void main(String[] args) {
 
@@ -58,7 +59,7 @@ public class StudentRecord<E> {
 
 		// instantiate the handler
 		UserInputHandler processInput = new UserInputHandler();
-
+		TreeMap<String, StudentRecord> StudentCollection = new TreeMap<String, StudentRecord>();
 		// Option selector
 		while (completeFlag == 0) {
 
@@ -68,11 +69,6 @@ public class StudentRecord<E> {
 					.concat("\n").concat(optionZero).concat("\t")), 0);
 
 			int select = Integer.parseInt(option);
-			TreeMap<Integer, StudentRecord> StudentCollection = new TreeMap<Integer, StudentRecord>();
-			
-			StudentRecord<Student> student = new StudentRecord<Student>();
-			
-
 			
 			if (select > 5 || select < 0) {// Valid options
 
@@ -81,11 +77,11 @@ public class StudentRecord<E> {
 			} else if (select == 1) {//Add a Student
 				//name
 				//id
-				
-//				student.id = processInput.getAlphaNum("Student ID: ");
-//				student.setFName(processInput.getString("Enter First Name: "));
-//				student.setLName(processInput.getString("Enter Last Name: "));
-				
+				StudentRecord<Student> studentRec = new StudentRecord<Student>();				
+				studentRec.student.id = (String) processInput.getAlphaNum("Student ID: ");
+				studentRec.student.setFName(processInput.getString("Enter First Name: "));
+				studentRec.student.setLName(processInput.getString("Enter Last Name: "));
+				StudentCollection.put(studentRec.student.id, studentRec);
 //				course.addToHead(student);
 //				course.printList();
 				
@@ -93,6 +89,20 @@ public class StudentRecord<E> {
 			} else if (select == 2) {//Add a Course to Student Record
 				//enter id
 				//course alphaNum
+				StudentRecord<Student> studentRec = new StudentRecord<Student>();
+				studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+				while (studentRec == null) {
+					System.out.println("Student does not exist");
+					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+
+				} 
+				Course<String> course = new Course<String>();				
+				course.addToHead((String) processInput.getAlphaNum("Course Name/ID: "));
+				studentRec.setStud(studentRec.student);
+				studentRec.setCourse(course);
+				StudentCollection.put(studentRec.student.id, studentRec);
+
+//				processInput.getAlphaNum("Course Name/ID: "));
 			
 			} else if (select == 3) {//Delete
 				//enter id
@@ -100,6 +110,17 @@ public class StudentRecord<E> {
 			
 			} else if (select == 4) {//Print Record
 				//enter id
+				StudentRecord<Student> studentRec = new StudentRecord<Student>();
+				studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+				while (studentRec == null) {
+					System.out.println("Student does not exist");
+					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+
+				} 
+//				for (int i = 0; i < studentRec.course.size(); i++) {
+					studentRec.course.printList();	
+//				}
+				
 
 				
 			} else { //exit

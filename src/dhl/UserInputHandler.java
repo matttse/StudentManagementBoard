@@ -14,7 +14,7 @@ package dhl;
 
 import java.util.Scanner;
 
-public class UserInputHandler {
+public class UserInputHandler<E> {
 
 	// Declare and initialize global variables
 	private Scanner keyboardInput;
@@ -38,7 +38,7 @@ public class UserInputHandler {
 	 * @Return: {vc} output text
 	 * 
 	 */
-	public String getAlphaNum(String inputString) {
+	public E getAlphaNum(E inputString) {
 		boolean valid = false;
 		int tryCnt = 0;
 		InputValidator validateInput = new InputValidator();
@@ -46,14 +46,14 @@ public class UserInputHandler {
 
 		while (valid != true && tryCnt < 3) {
 
-			String input = keyboardInput.nextLine();
+			E input = (E) keyboardInput.nextLine();
 
 			// iterate over input checking to make sure each char is Aa-Zz-0-9
-			valid = validateInput.validate(input, 2, 0);
+			valid = validateInput.validate((String) input, 2, 0);
 
 			if (valid == true) {
 
-				outputText = processOutput(input);
+				outputText = processOutput((String) input);
 
 			} else {
 
@@ -69,7 +69,7 @@ public class UserInputHandler {
 			outputText = "You have tried too many times. Please start over.";
 		}
 
-		return outputText;
+		return (E) outputText;
 
 	}// end method
 

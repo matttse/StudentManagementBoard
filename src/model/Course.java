@@ -445,6 +445,14 @@ public class Course<E> extends CourseDetails<E> {
 		}
 		System.out.println();
 	}
+	
+	public <E> E convertInstanceOfObject(Object o, Class<E> c) {
+		try {
+			return c.cast(o);
+		} catch (ClassCastException e) {
+			return null;
+		}
+	}
 
 	/**
 	 * @return the letterGrade

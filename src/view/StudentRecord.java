@@ -16,7 +16,7 @@ import dhl.UserInputHandler;
  */
 public class StudentRecord<E> {
 	public Student student = new Student();
-	public Course<String> course = new Course<String>();
+	public Course<Course> course = new Course<Course>();
 	
 	/**
 	 * @return the stud
@@ -35,14 +35,14 @@ public class StudentRecord<E> {
 	/**
 	 * @return the course
 	 */
-	public Course<String> getCourse() {
+	public Course<Course> getCourse() {
 		return course;
 	}
 
 	/**
 	 * @param course the course to set
 	 */
-	public void setCourse(Course<String> course) {
+	public void setCourse(Course<Course> course) {
 		this.course = course;
 	}
 
@@ -79,10 +79,24 @@ public class StudentRecord<E> {
 			} else if (select == 1) {//Add a Student
 				//name
 				//id
-				StudentRecord<Student> studentRec = new StudentRecord<Student>();				
-				studentRec.student.id = (String) processInput.getAlphaNum("Student ID: ");
+				StudentRecord<Student> studentRec = new StudentRecord<Student>();	
+				
+				studentRec.student.setId((String) processInput.getAlphaNum("Student ID: "));
+				while (studentRec.student.id.length() == 0) {
+					System.out.println("Did not Enter Any Value");
+					studentRec.student.setId((String) processInput.getAlphaNum("Student ID: "));
+				}
+				
 				studentRec.student.setFName(processInput.getString("Enter First Name: "));
+				while (studentRec.student.getFName().length() == 0) {
+					System.out.println("Did not Enter Any Value");
+					studentRec.student.setFName((String) processInput.getString("Enter First Name: "));
+				}
 				studentRec.student.setLName(processInput.getString("Enter Last Name: "));
+				while (studentRec.student.getLName().length() == 0) {
+					System.out.println("Did not Enter Any Value");
+					studentRec.student.setLName((String) processInput.getString("Enter Last Name: "));
+				}
 				StudentCollection.put(studentRec.student.id, studentRec);
 //				course.addToHead(student);
 //				course.printList();
@@ -100,8 +114,6 @@ public class StudentRecord<E> {
 					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 
 				} 
-				//Add Course to List
-				studentRec.course.addToHead((String) processInput.getAlphaNum("Course Name/ID: "));
 				//enter Credits
 				studentRec.course.setCredits(Integer.parseInt(processInput.getNum("Number of Credits: ", 1)));
 				//check Credits
@@ -110,6 +122,14 @@ public class StudentRecord<E> {
 					studentRec.course.setCredits(Integer.parseInt(processInput.getNum("Number of Credits: ", 1)));
 //					studentRec.course.credits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
 				}
+//				Course<Course> course = new Course<Course>();
+				//Add Course to List//
+				Course<Course> newCourse = new Course<Course>();
+				studentRec.course.setTitle((String) (processInput.getAlphaNum("Course Name/ID: ")));
+				newCourse.convertInstanceOfObject(studentRec.course, Course.class);
+				studentRec.course.addToHead(studentRec.course);
+				//TODO
+				
 				
 				studentRec.setStud(studentRec.student);
 

@@ -9,6 +9,7 @@ package model;
  */
 public abstract class CourseDetails<E> {
 	public int credits;
+	public String title;
 	/**
 	 * 
 	 */
@@ -27,6 +28,18 @@ public abstract class CourseDetails<E> {
 	 */
 	public void setCredits(int credits) {
 		this.credits = credits;
+	}
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
 	}		
 
 

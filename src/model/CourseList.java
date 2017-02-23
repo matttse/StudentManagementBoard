@@ -419,5 +419,7 @@ public class CourseList<E> implements Cloneable{
 		}
 		System.out.println();
 	}
+	
 
 }
+

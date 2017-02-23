@@ -96,17 +96,28 @@ public class StudentRecord<E> {
 					Course<Object> newCourse = new Course<Object>(title);
 					CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
 
-					//enter Credits
+					//Number of Credits
 					int numCredits;
 					numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
-					//check Credits
+					//Check Credits
 					while (numCredits > 4 || numCredits < 1) {
 						System.out.println("Credits cannot be more than 4.0 or less than 1.0");
 						numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
 					}
+					
+					//Letter Grade
+					String letterGrade;
+					letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
+					while (letterGrade != "F" || letterGrade != "D" || letterGrade != "C" || letterGrade != "B" || letterGrade != "A") {
+						System.out.println("Must be A through F");
+						letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
+					}
+					
 					//set new course values
 					newCourse.setTitle((String) title);
 					newCourse.setCredits(numCredits);
+					newCourse.setLetterGrade(letterGrade);
+					newCourse.setNumberGrade(newCourse.evalNumberGrade(letterGrade));
 					//add new course back to courses
 					courses.addToHead(newCourse);
 					courses.head.setCredits(numCredits);

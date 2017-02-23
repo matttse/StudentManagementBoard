@@ -1,7 +1,8 @@
 package view;
 
+import model.CourseList;
+import model.CourseList.Course;
 import model.Student;
-import model.Course;
 
 import java.util.TreeMap;
 
@@ -15,37 +16,13 @@ import dhl.UserInputHandler;
  *
  */
 public class StudentRecord<E> {
+	public StudentRecord() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Student student = new Student();
-	public Course<Course> course = new Course<Course>();
-	
-	/**
-	 * @return the stud
-	 */
-	public Student getStud() {
-		return student;
-	}
-
-	/**
-	 * @param stud the stud to set
-	 */
-	public void setStud(Student student) {
-		this.student = student;
-	}
-
-	/**
-	 * @return the course
-	 */
-	public Course<Course> getCourse() {
-		return course;
-	}
-
-	/**
-	 * @param course the course to set
-	 */
-	public void setCourse(Course<Course> course) {
-		this.course = course;
-	}
-
+	public CourseList courses = new CourseList();
 
 	// Main method
 	public static void main(String[] args) {
@@ -60,7 +37,7 @@ public class StudentRecord<E> {
 		String option = "";
 
 		// instantiate the handler
-		UserInputHandler processInput = new UserInputHandler();
+		UserInputHandler<String> processInput = new UserInputHandler<String>();
 		TreeMap<String, StudentRecord> StudentCollection = new TreeMap<String, StudentRecord>();
 		// Option selector
 		while (completeFlag == 0) {
@@ -81,10 +58,10 @@ public class StudentRecord<E> {
 				//id
 				StudentRecord<Student> studentRec = new StudentRecord<Student>();	
 				
-				studentRec.student.setId((String) processInput.getAlphaNum("Student ID: "));
+				studentRec.student.setId(processInput.getAlphaNum("Student ID: "));
 				while (studentRec.student.id.length() == 0) {
 					System.out.println("Did not Enter Any Value");
-					studentRec.student.setId((String) processInput.getAlphaNum("Student ID: "));
+					studentRec.student.setId(processInput.getAlphaNum("Student ID: "));
 				}
 				
 				studentRec.student.setFName(processInput.getString("Enter First Name: "));
@@ -97,43 +74,50 @@ public class StudentRecord<E> {
 					System.out.println("Did not Enter Any Value");
 					studentRec.student.setLName((String) processInput.getString("Enter Last Name: "));
 				}
-				StudentCollection.put(studentRec.student.id, studentRec);
-//				course.addToHead(student);
-//				course.printList();
+				StudentCollection.put(studentRec.student.getId(), studentRec);
 				
 			
 			} else if (select == 2) {//Add a Course to Student Record
-
-				//course alphaNum
-				StudentRecord<Student> studentRec = new StudentRecord<Student>();
-				//enter id
-				studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
-				//Check Student ID
-				while (studentRec == null) {
-					System.out.println("Student does not exist");
+				if (StudentCollection.size() == 0) {
+					System.out.println("Need to Add a Student before Adding a Course.");
+				} else {
+					//course alphaNum
+					StudentRecord<Student> studentRec = new StudentRecord<Student>();
+					//enter id
 					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+					//Check Student ID
+					while (studentRec == null) {
+						System.out.println("Student does not exist");
+						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 
-				} 
-				//enter Credits
-				studentRec.course.setCredits(Integer.parseInt(processInput.getNum("Number of Credits: ", 1)));
-				//check Credits
-				while (studentRec.course.credits > 4 || studentRec.course.credits < 1) {
-					System.out.println("Credits cannot be more than 4.0 or less than 1.0");
-					studentRec.course.setCredits(Integer.parseInt(processInput.getNum("Number of Credits: ", 1)));
-//					studentRec.course.credits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
+					} 
+					//Add Course to List//
+					Object title = processInput.getAlphaNum("Course Name/ID: ");
+					Course<Object> newCourse = new Course<Object>(title);
+					CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
+
+					//enter Credits
+					int numCredits;
+					numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
+					//check Credits
+					while (numCredits > 4 || numCredits < 1) {
+						System.out.println("Credits cannot be more than 4.0 or less than 1.0");
+						numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
+					}
+					//set new course values
+					newCourse.setTitle((String) title);
+					newCourse.setCredits(numCredits);
+					//add new course back to courses
+					courses.addToHead(newCourse);
+					courses.head.setCredits(numCredits);
+					courses.head.setTitle((String) title);
+					//add/update courses to the student record
+					studentRec.setCourses(courses);
+					//update collection
+					StudentCollection.put(studentRec.student.id, studentRec); 
 				}
-//				Course<Course> course = new Course<Course>();
-				//Add Course to List//
-				Course<Course> newCourse = new Course<Course>();
-				studentRec.course.setTitle((String) (processInput.getAlphaNum("Course Name/ID: ")));
-				newCourse.convertInstanceOfObject(studentRec.course, Course.class);
-				studentRec.course.addToHead(studentRec.course);
-				//TODO
-				
-				
-				studentRec.setStud(studentRec.student);
 
-				StudentCollection.put(studentRec.student.id, studentRec); 
+
 				
 			} else if (select == 3) {//Delete
 				//enter id
@@ -141,20 +125,21 @@ public class StudentRecord<E> {
 			
 			} else if (select == 4) {//Print Record
 				//enter id
-				StudentRecord<Student> studentRec = new StudentRecord<Student>();
-				studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
-				while (studentRec == null) {
-					System.out.println("Student does not exist");
-					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
-
-				} 
-//				studentRec.course.printCourses();
-				studentRec.course.printCourseDetails();
-//				for (int i = 0; i < studentRec.course.size(); i++) {	
-//					System.out.println("Course: " + studentRec.course + "\t" + studentRec.course.credits);
-//					
-//				}
 				
+				if (StudentCollection.size() == 0) {
+					System.out.println("No Students added yet");
+				} else {
+					StudentRecord<Student> studentRec = new StudentRecord<Student>();
+					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+					while (studentRec == null) {
+						System.out.println("Student does not exist");
+						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+						
+
+					} 
+					studentRec.courses.printList();					
+				}
+
 
 				
 			} else { //exit
@@ -177,6 +162,34 @@ public class StudentRecord<E> {
 		System.exit(status);
 		return;
 	}//end system exit
+	
+	/**
+	 * @return the stud
+	 */
+	public Student getStud() {
+		return student;
+	}
+
+	/**
+	 * @param stud the stud to set
+	 */
+	public void setStud(Student student) {
+		this.student = student;
+	}
+
+	/**
+	 * @return the courses
+	 */
+	public CourseList getCourses() {
+		return courses;
+	}
+
+	/**
+	 * @param courses the courses to set
+	 */
+	public void setCourses(CourseList courses) {
+		this.courses = courses;
+	}
 	
 	
 

@@ -4,10 +4,10 @@
 package model;
 
 /**
- * @author CH165496
+ * @author Matthew Tse
  *
  */
-public abstract class CourseDetails<E> {
+public abstract class CourseDetails {
 	public int credits;
 	public String title;
 	/**

@@ -118,6 +118,7 @@ public class StudentRecord<E> {
 					newCourse.setCredits(numCredits);
 					newCourse.setLetterGrade(letterGrade);
 					newCourse.setNumberGrade(newCourse.evalNumberGrade(letterGrade));
+					
 					//add new course back to courses
 					courses.addToHead(newCourse);
 					courses.head.setCredits(numCredits);

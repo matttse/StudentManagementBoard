@@ -407,6 +407,7 @@ public class CourseList<E> implements Cloneable{
 
 	public void printList(){
 		System.out.print("Number of nodes = " + size + ", List is: ");
+//		newCourse.setGradePointAverage();
 		if (head != null){
 			Course<E> current = head;
 		    while (current != null){

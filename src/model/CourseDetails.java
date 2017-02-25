@@ -112,12 +112,14 @@ public abstract class CourseDetails {
 		return numberGrade;
 	}
 	
-//	public <E> calcAverage(E[] list){
-//		private E sum = 0.0;
-//		
-//		for (int i = 0; i < list.length; i++) {
-//			sum += list[i];
-//		}
-//	}
+	public <E> double calcAverage(E[] list){
+		double sum = 0.0;
+		double avg = 0;		
+		for (int i = 0; i < list.length; i++) {
+			sum += Double.parseDouble((String) list[i]);	
+		}
+		avg = (sum/list.length);
+		return avg;
+	}
 
 }

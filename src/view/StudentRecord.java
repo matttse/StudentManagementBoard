@@ -16,10 +16,6 @@ import dhl.UserInputHandler;
  *
  */
 public class StudentRecord<E> {
-	public StudentRecord() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	public Student student = new Student();
 	public CourseList courses = new CourseList();
@@ -97,8 +93,7 @@ public class StudentRecord<E> {
 					CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
 
 					//Number of Credits
-					int numCredits;
-					numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
+					int numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
 					//Check Credits
 					while (numCredits > 4 || numCredits < 1) {
 						System.out.println("Credits cannot be more than 4.0 or less than 1.0");
@@ -106,12 +101,12 @@ public class StudentRecord<E> {
 					}
 					
 					//Letter Grade
-					String letterGrade;
-					letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
-					while (letterGrade != "F" || letterGrade != "D" || letterGrade != "C" || letterGrade != "B" || letterGrade != "A") {
-						System.out.println("Must be A through F");
-						letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
-					}
+					String letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
+//					while (letterGrade == "F" || letterGrade == "D" || letterGrade != "C" || letterGrade != "B" || letterGrade != "A") {
+//					while (letterGrade == "F" || letterGrade == "D" || letterGrade != "C" || letterGrade != "B" || letterGrade != "A") {
+//						System.out.println("Must be A through F");
+//						letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
+//					}
 					
 					//set new course values
 					newCourse.setTitle((String) title);
@@ -123,6 +118,8 @@ public class StudentRecord<E> {
 					courses.addToHead(newCourse);
 					courses.head.setCredits(numCredits);
 					courses.head.setTitle((String) title);
+					courses.head.setLetterGrade(letterGrade);
+					courses.head.setNumberGrade(newCourse.evalNumberGrade(letterGrade));
 					//add/update courses to the student record
 					studentRec.setCourses(courses);
 					//update collection
@@ -146,13 +143,10 @@ public class StudentRecord<E> {
 					while (studentRec == null) {
 						System.out.println("Student does not exist");
 						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
-						
 
 					} 
-					studentRec.courses.printList();					
+					studentRec.courses.printCourseRecord();					
 				}
-
-
 				
 			} else { //exit
 				completeFlag += 1;

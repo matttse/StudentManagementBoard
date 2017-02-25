@@ -3,6 +3,9 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.CourseList.Course;
 
 
@@ -405,15 +408,42 @@ public class CourseList<E> implements Cloneable{
 		return current; 
 	}
 
-	public void printList(){
-		System.out.print("Number of nodes = " + size + ", List is: ");
-//		newCourse.setGradePointAverage();
+	public void printCourseRecord(){
+		//list to store integers
+		List<Integer> cnt = new ArrayList<Integer>();
+		//instantiate with 10 the list of grades
+		//TODO make list size dynamic
+		Integer[] cntList = new Integer[10];
+		//print size
+		System.out.print("Number of nodes = " + size + "\n, List is: ");
 		if (head != null){
-			Course<E> current = head;
+			//get current
+			Course<E> current = head;			
 		    while (current != null){
-			   System.out.print(current.data + " ");
-			   current = (Course<E>) current.getNext();
-		   }
+		    	//add each grade to list
+		    	cnt.add(current.getNumberGrade());
+		    	//print title
+		    	System.out.print(current.title + " ");
+		    	//reset to next 
+		    	current = (Course<E>) current.getNext();
+		    }
+		    //set values in grade list
+		    for (int i = 0; i < cnt.size(); i++) {
+		    	cntList[i] = cnt.get(i);
+		    }
+		    //trimtosize
+		    if (cnt.size() < cntList.length) {
+		    	Integer[] newCntList = new Integer[cnt.size()];
+		    	System.arraycopy(cntList, 0, newCntList, 0, cnt.size());
+		    	cntList = newCntList;
+		    }
+		    //reset rec
+		    Course<E> newRec = head;
+		    //calc avg
+		    newRec.setGradePointAverage(newRec.calcAverage(cntList));
+		    //print gpa
+		    System.out.println("\nGPA: " + newRec.getGradePointAverage());
+
 		}
 		else {
 			System.out.println("The list is empty");

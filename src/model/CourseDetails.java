@@ -12,7 +12,7 @@ public abstract class CourseDetails {
 	public String title;
 	public String letterGrade;
 	public int numberGrade;
-	public int gradePointAverage;
+	public double gradePointAverage;
 
 	/**
 	 * @return the credits
@@ -71,14 +71,14 @@ public abstract class CourseDetails {
 	/**
 	 * @return the gradePointAverage
 	 */
-	public int getGradePointAverage() {
+	public double getGradePointAverage() {
 		return gradePointAverage;
 	}
 
 	/**
 	 * @param gradePointAverage the gradePointAverage to set
 	 */
-	public void setGradePointAverage(int gradePointAverage) {
+	public void setGradePointAverage(double gradePointAverage) {
 		this.gradePointAverage = gradePointAverage;
 	}	
 	
@@ -102,6 +102,21 @@ public abstract class CourseDetails {
 			break;
 		case "A":
 			numberGrade = 4;
+			break;			
+		case "f":
+			numberGrade = 0;
+			break;
+		case "d":
+			numberGrade = 1;
+			break;
+		case "c":
+			numberGrade = 2;
+			break;
+		case "b":
+			numberGrade = 3;
+			break;
+		case "a":
+			numberGrade = 4;
 			break;
 			
 		default:
@@ -116,7 +131,7 @@ public abstract class CourseDetails {
 		double sum = 0.0;
 		double avg = 0;		
 		for (int i = 0; i < list.length; i++) {
-			sum += Double.parseDouble((String) list[i]);	
+			sum += Double.parseDouble(Integer.toString((Integer) list[i]));	
 		}
 		avg = (sum/list.length);
 		return avg;

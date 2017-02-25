@@ -74,6 +74,7 @@ public class StudentRecord<E> {
 				
 			
 			} else if (select == 2) {//Add a Course to Student Record
+				//validate option
 				if (StudentCollection.size() == 0) {
 					System.out.println("Need to Add a Student before Adding a Course.");
 				} else {
@@ -129,8 +130,24 @@ public class StudentRecord<E> {
 
 				
 			} else if (select == 3) {//Delete
-				//enter id
-				//enter course number
+				//validate option
+				if (StudentCollection.size() == 0) {
+					System.out.println("Need to Add a Student before Deleting a Course.");
+				} else {
+					StudentRecord<Student> studentRec = new StudentRecord<Student>();
+					//enter id
+					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+					//validate student
+					while (studentRec == null) {
+						System.out.println("Student does not exist");
+						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+
+					} 
+					//enter course number
+					//validate course
+					//delete course
+					
+				}
 			
 			} else if (select == 4) {//Print Record
 				//enter id
@@ -139,7 +156,9 @@ public class StudentRecord<E> {
 					System.out.println("No Students added yet");
 				} else {
 					StudentRecord<Student> studentRec = new StudentRecord<Student>();
+					//enter id
 					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
+					//validate student
 					while (studentRec == null) {
 						System.out.println("Student does not exist");
 						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));

@@ -407,6 +407,19 @@ public class CourseList<E> implements Cloneable{
 			current = (Course<E>) current.getNext();
 		return current; 
 	}
+	/**
+	 * find a node with element e
+	 * start the search beginning at node p
+	 * if node with e does not exist, return null
+	 * if node with e exists, return the pointer to the node
+	**/
+	public Course<E> findCourse(Course<E> p, E e){
+		Course<E> current = p;
+		while (current != null && current.data != e) {
+			current = (Course<E>) current.getNext();
+		}
+		return current; 
+	}
 
 	public void printCourseRecord(){
 		//list to store integers
@@ -415,7 +428,7 @@ public class CourseList<E> implements Cloneable{
 		//TODO make list size dynamic
 		Integer[] cntList = new Integer[10];
 		//print size
-		System.out.print("Number of nodes = " + size + "\n, List is: ");
+		System.out.print("Number of nodes = " + size + "\n");
 		if (head != null){
 			//get current
 			Course<E> current = head;			
@@ -423,7 +436,7 @@ public class CourseList<E> implements Cloneable{
 		    	//add each grade to list
 		    	cnt.add(current.getNumberGrade());
 		    	//print title
-		    	System.out.print(current.title + " ");
+		    	System.out.println(current.title + " ");
 		    	//reset to next 
 		    	current = (Course<E>) current.getNext();
 		    }

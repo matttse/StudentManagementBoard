@@ -18,7 +18,7 @@ import dhl.UserInputHandler;
 public class StudentRecord<E> {
 
 	public Student student = new Student();
-	public CourseList courses = new CourseList();
+	public CourseList<E> courses = new CourseList<E>();
 
 	// Main method
 	public static void main(String[] args) {
@@ -90,8 +90,8 @@ public class StudentRecord<E> {
 					} 
 					//Add Course to List//
 					Object title = processInput.getAlphaNum("Course Name/ID: ");
-					Course<Object> newCourse = new Course<Object>(title);
-					CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
+					Course<String> newCourse = new Course<String>(title.toString());
+					CourseList<Course> courses = new CourseList<Course>(studentRec.courses);
 
 					//Number of Credits
 					int numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
@@ -141,11 +141,21 @@ public class StudentRecord<E> {
 					while (studentRec == null) {
 						System.out.println("Student does not exist");
 						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
-
 					} 
 					//enter course number
-					//validate course
+					Object title = processInput.getAlphaNum("Course Name/ID: ");
+					Course<String> temp = new Course<String>(title.toString());
+					CourseList<Course> courses = new CourseList<Course>(studentRec.courses);
+					//retreive course
+					Course<Course> courseFind = courses.findCourse(courses.head, temp);
+					
 					//delete course
+					courses.deleteNode(temp);
+					//update courses
+					CourseList<Object> newCourses = new CourseList<Object>(courses);
+					studentRec.setCourses(newCourses);
+					//update collection
+					StudentCollection.put(studentRec.student.id, studentRec); 
 					
 				}
 			

@@ -435,21 +435,24 @@ public class CourseList<E> implements Cloneable{
 			return null;
 		//set the data at link
 		} else {
-			if (temp.getPrevious() != null && temp.getNext() != null) {//set new links
-				temp.previous.next = temp.next;
-				temp.next.previous = temp.previous;
+			if (temp.getPrevious() != null && temp.getNext() != null) {//set new pointers
+				temp.previous.next = temp.getNext();
+				temp.next.previous = temp.getPrevious();
+				//disable temp pointers
 				temp.previous = null;
 				temp.next = null;
 			} else if (temp.getPrevious() == null && temp.getNext() != null) {//check head
 				if (temp.getNext() == tail) {					
 					head = temp.getNext();
 					tail = temp.getNext();
+					//disable temp pointers
 					temp.next.previous = null;
 					temp.next = null;
 					temp.previous = null;
 					
 				} else {
 					head = temp.getNext();
+					//disable temp pointers
 					temp.next.previous = null;
 					temp.next = null;
 					temp.previous = null;
@@ -459,18 +462,20 @@ public class CourseList<E> implements Cloneable{
 				if (temp.getPrevious() == head) {	
 					head = temp.getPrevious();
 					tail = temp.getPrevious();
+					//disable temp pointers
 					temp.previous.next = null;
 					temp.previous = null;
 					temp.next = null;
 					
 				} else {
 					tail = temp.getPrevious();
+					//disable temp pointers
 					temp.previous.next = null;					
 					temp.next = null;
 					temp.previous = null;
 				}
 				
-			} else {//check head/tail
+			} else {//check head and tail
 				temp = null;
 				head = null;
 				tail = null;

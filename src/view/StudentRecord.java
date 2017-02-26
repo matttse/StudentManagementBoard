@@ -52,22 +52,24 @@ public class StudentRecord<E> {
 				System.out.print("Please select a valid option");
 			
 			} else if (select == 1) {//Add a Student
-				//name
-				//id
+				//instantiate new student record
 				StudentRecord<Student> studentRec = new StudentRecord<Student>();	
 				
 				studentRec.student.setId(processInput.getAlphaNum("Student ID: "));
+				//validate student id input
 				while (studentRec.student.id.length() == 0) {
 					System.out.println("Did not Enter Any Value");
 					studentRec.student.setId(processInput.getAlphaNum("Student ID: "));
 				}
 				
 				studentRec.student.setFName(processInput.getString("Enter First Name: "));
+				//validate student fName
 				while (studentRec.student.getFName().length() == 0) {
 					System.out.println("Did not Enter Any Value");
 					studentRec.student.setFName((String) processInput.getString("Enter First Name: "));
 				}
 				studentRec.student.setLName(processInput.getString("Enter Last Name: "));
+				//validate student lName
 				while (studentRec.student.getLName().length() == 0) {
 					System.out.println("Did not Enter Any Value");
 					studentRec.student.setLName((String) processInput.getString("Enter Last Name: "));
@@ -92,37 +94,46 @@ public class StudentRecord<E> {
 					} 
 					//Add Course to List//
 					Object title = processInput.getAlphaNum("Course Name/ID: ");
+					//instantiate new course
 					Course<String> newCourse = new Course<String>(title.toString());
+					//instantiate course list from student record
 					CourseList<Course> courses = new CourseList<Course>(studentRec.courses);
 
 					//Number of Credits
 					int numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
-					//Check Credits
+					//validate Credits
 					while (numCredits > 4 || numCredits < 1) {
 						System.out.println("Credits cannot be more than 4.0 or less than 1.0");
 						numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
 					}
 					
 					//Letter Grade
+					ArrayList letterGradeList = new ArrayList();
+					letterGradeList.add("A");
+					letterGradeList.add("B");
+					letterGradeList.add("C");
+					letterGradeList.add("D");
+					letterGradeList.add("F");
+					
 					String letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
-//					while (letterGrade == "F" || letterGrade == "D" || letterGrade != "C" || letterGrade != "B" || letterGrade != "A") {
-//					while (letterGrade == "F" || letterGrade == "D" || letterGrade != "C" || letterGrade != "B" || letterGrade != "A") {
-//						System.out.println("Must be A through F");
-//						letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
-//					}
+					//validate letterGrade
+					while (!letterGradeList.contains(letterGrade.toUpperCase())) {
+						System.out.println("Must be A through F");
+						letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
+					}
 					
 					//set new course values
 					newCourse.setTitle((String) title);
 					newCourse.setCredits(numCredits);
-					newCourse.setLetterGrade(letterGrade);
-					newCourse.setNumberGrade(newCourse.evalNumberGrade(letterGrade));
+					newCourse.setLetterGrade(letterGrade.toUpperCase());
+					newCourse.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
 					
 					//add new course back to courses
 					courses.addToHead(newCourse);
 					courses.head.setCredits(numCredits);
 					courses.head.setTitle((String) title);
-					courses.head.setLetterGrade(letterGrade);
-					courses.head.setNumberGrade(newCourse.evalNumberGrade(letterGrade));
+					courses.head.setLetterGrade(letterGrade.toUpperCase());
+					courses.head.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
 					//add/update courses to the student record
 					studentRec.setCourses(courses);
 					//update collection
@@ -136,8 +147,9 @@ public class StudentRecord<E> {
 				if (StudentCollection.size() == 0) {
 					System.out.println("Need to Add a Student before Deleting a Course.");
 				} else {
+					//instantiate new student record
 					StudentRecord<Student> studentRec = new StudentRecord<Student>();
-					//enter id
+					//enter id to set student record file
 					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 					//validate student
 					while (studentRec == null) {
@@ -150,6 +162,7 @@ public class StudentRecord<E> {
 					CourseList courses = new CourseList(studentRec.courses);
 					//find course pointer
 					Course courseFind = courses.findCourse(courses.head, title);
+					//validate course
 					if (courseFind != null) {
 						//delete course
 						courses.deleteCourse(courses.head, courseFind);
@@ -196,14 +209,25 @@ public class StudentRecord<E> {
 		} // end Option menu
 
 	}// end main method
-
+	
+	/*
+	 * @Name: printStudentRecord
+	 * 
+	 * @Function/Purpose: prints a single student record
+	 * 
+	 * @Parameters:
+	 * 		{object class CourseList} courseList
+	 * @Additionl Comments: All input must be passed as CourseList
+	 * 
+	 * @Return void
+	 */
 	public void printStudentRecord(CourseList courseList){
 		//list to store integers
-		List<Integer> cnt = new ArrayList<Integer>();
+		ArrayList<Integer> cnt = new ArrayList<Integer>();
 		//instantiate with 10 the list of grades
 		//TODO make list size dynamic
 		if (courseList.size > 0) {
-			Integer[] cntList = new Integer[10];
+			ArrayList<Integer> cntr = new ArrayList<Integer>();
 			//print size
 			System.out.print("Number of nodes = " + courseList.size + "\n");
 			if (courseList != null){
@@ -221,18 +245,12 @@ public class StudentRecord<E> {
 
 			    //set values in grade list
 			    for (int i = 0; i < cnt.size(); i++) {
-			    	cntList[i] = cnt.get(i);
-			    }
-			    //trimtosize
-			    if (cnt.size() < cntList.length) {
-			    	Integer[] newCntList = new Integer[cnt.size()];
-			    	System.arraycopy(cntList, 0, newCntList, 0, cnt.size());
-			    	cntList = newCntList;
+			    	cntr.add(cnt.get(i));
 			    }
 			    //reset rec
 			    Course<E> newRec = courseList.head;
 			    //calc avg
-			    newRec.setGradePointAverage(newRec.calcAverage(cntList));
+			    newRec.setGradePointAverage(newRec.calcAverage(cntr));
 			    //print gpa
 			    System.out.println("\nGPA: " + newRec.getGradePointAverage());
 

@@ -3,6 +3,8 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  * @author Matthew Tse
  *
@@ -82,7 +84,17 @@ public abstract class CourseDetails {
 		this.gradePointAverage = gradePointAverage;
 	}	
 	
-	
+	/*
+	 * @Name: evalNumberGrade
+	 * 
+	 * @Function/Purpose: sets a numerical grade from a letter grade
+	 * 
+	 * @Parameters:
+	 * 		{vc} letterGrade
+	 * 
+	 * @Additionl Comments: All input must be passed as a string
+	 * @Return {i4} integer number grade
+	 */
 	public int evalNumberGrade(String letterGrade) {
 		int numberGrade;
 		
@@ -125,16 +137,26 @@ public abstract class CourseDetails {
 
 		}
 		return numberGrade;
-	}
-	
-	public <E> double calcAverage(E[] list){
+	}//end evalNumberGrade method
+	/*
+	 * @Name: calcAverage
+	 * 
+	 * @Function/Purpose: Calculates average
+	 * 
+	 * @Parameters:
+	 * 		{ArrayList Integer} list of integers
+	 * @Additionl Comments: All input must be passed as an ArrayList
+	 * 
+	 * @Return double average value
+	 */
+	public double calcAverage(ArrayList<Integer> cntr){
 		double sum = 0.0;
 		double avg = 0;		
-		for (int i = 0; i < list.length; i++) {
-			sum += Double.parseDouble(Integer.toString((Integer) list[i]));	
+		for (int i = 0; i < cntr.size(); i++) {
+			sum += Double.parseDouble(Integer.toString(cntr.get(i)));	
 		}
-		avg = (sum/list.length);
+		avg = (sum/cntr.size());
 		return avg;
-	}
+	}//end calcAverage method
 
-}
+}//end CourseDetails class

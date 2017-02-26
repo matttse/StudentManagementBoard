@@ -408,7 +408,7 @@ public class CourseList<E> implements Cloneable{
 		return current; 
 	}
 	/**
-	 * find a node with element e
+	 * find a course with element e (title is key)
 	 * start the search beginning at node p
 	 * if node with e does not exist, return null
 	 * if node with e exists, return the pointer to the node
@@ -501,5 +501,5 @@ public class CourseList<E> implements Cloneable{
 		System.out.println();
 	}
 
-}
+}//end CourseList
 

@@ -144,17 +144,15 @@ public class StudentRecord<E> {
 					} 
 					//enter course number
 					String title = processInput.getAlphaNum("Course Name/ID: ");
-					Course temp = new Course(title.toString());
+					//retrieve course list on student record
 					CourseList courses = new CourseList(studentRec.courses);
-					//retreive course
-//					Course courseFind = courses.findCourse(courses.head, temp);
+					//find course pointer
 					Course courseFind = courses.findCourse(courses.head, title);
 					if (courseFind != null) {
 						//delete course
 						courses.deleteCourse(courseFind);
 						//update courses
-						CourseList<Object> newCourses = new CourseList<Object>(courses);
-						studentRec.setCourses(newCourses);
+						studentRec.setCourses(courses);
 						//update collection
 						StudentCollection.put(studentRec.student.id, studentRec); 						
 					} else {

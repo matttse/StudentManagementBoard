@@ -4,6 +4,8 @@ import model.CourseList;
 import model.CourseList.Course;
 import model.Student;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import dhl.UserInputHandler;
@@ -150,7 +152,7 @@ public class StudentRecord<E> {
 					Course courseFind = courses.findCourse(courses.head, title);
 					if (courseFind != null) {
 						//delete course
-						courses.deleteCourse(courseFind);
+						courses.deleteCourse(courses.head, courseFind);
 						//update courses
 						studentRec.setCourses(courses);
 						//update collection
@@ -162,8 +164,7 @@ public class StudentRecord<E> {
 				}
 			
 			} else if (select == 4) {//Print Record
-				//enter id
-				
+				//enter id				
 				if (StudentCollection.size() == 0) {
 					System.out.println("No Students added yet");
 				} else {
@@ -174,9 +175,11 @@ public class StudentRecord<E> {
 					while (studentRec == null) {
 						System.out.println("Student does not exist");
 						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
-
+						
 					} 
-					studentRec.courses.printCourseRecord();					
+					//retrieve course list on student record
+					CourseList courses = new CourseList(studentRec.courses);
+					studentRec.printStudentRecord(courses);					
 				}
 				
 			} else { //exit
@@ -193,6 +196,54 @@ public class StudentRecord<E> {
 		} // end Option menu
 
 	}// end main method
+
+	public void printStudentRecord(CourseList courseList){
+		//list to store integers
+		List<Integer> cnt = new ArrayList<Integer>();
+		//instantiate with 10 the list of grades
+		//TODO make list size dynamic
+		if (courseList.size > 0) {
+			Integer[] cntList = new Integer[10];
+			//print size
+			System.out.print("Number of nodes = " + courseList.size + "\n");
+			if (courseList != null){
+				//get current
+				Course<E> current = courseList.head;	
+				
+			    while (current != null){
+			    	//add each grade to list
+			    	cnt.add(current.getNumberGrade());
+			    	//print title
+			    	System.out.println(current.title + " ");
+			    	//reset to next 
+			    	current = (Course<E>) current.getNext();
+			    }
+
+			    //set values in grade list
+			    for (int i = 0; i < cnt.size(); i++) {
+			    	cntList[i] = cnt.get(i);
+			    }
+			    //trimtosize
+			    if (cnt.size() < cntList.length) {
+			    	Integer[] newCntList = new Integer[cnt.size()];
+			    	System.arraycopy(cntList, 0, newCntList, 0, cnt.size());
+			    	cntList = newCntList;
+			    }
+			    //reset rec
+			    Course<E> newRec = courseList.head;
+			    //calc avg
+			    newRec.setGradePointAverage(newRec.calcAverage(cntList));
+			    //print gpa
+			    System.out.println("\nGPA: " + newRec.getGradePointAverage());
+
+			}
+			
+		} else {
+			System.out.println("The list is empty");
+		}
+
+		System.out.println();
+	}
 
 	// standard system exit.
 	public static void exit(int status) {

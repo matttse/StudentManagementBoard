@@ -403,7 +403,7 @@ public class CourseList<E> implements Cloneable{
 	**/
 	public Course<E> findNode(Course<E> p, E e){
 		Course<E> current = p;
-		while (current != null && current.data != e)
+		while (current != null && !current.data.equals(e))
 			current = (Course<E>) current.getNext();
 		return current; 
 	}
@@ -418,9 +418,6 @@ public class CourseList<E> implements Cloneable{
 		
 		while (current != null && !current.title.equals(e)) {
 			current = (Course<E>) current.getNext();
-//			if (current.title.equals(e)) {
-//				return current;
-//			}
 		}
 		return current; 
 	}
@@ -429,25 +426,54 @@ public class CourseList<E> implements Cloneable{
 	 * if exists, delete the node and return the pointer to the deleted node
 	 * decrement the size
 	**/
-	public Course<E> deleteCourse(E e){
+	public Course<E> deleteCourse(Course<E> p, E e){
+		Course<E> stat = (Course<E>) e;
 		//new node with selected
-		Course<E> temp = (Course<E>) e;		
+		Course<E> temp = findCourse(p, (E) stat.title);	
 		//if selected is not there
 		if (temp == null) {
 			return null;
 		//set the data at link
 		} else {
-			//check head
-			if (temp.previous == null) {
-				head = head.getNext();
-			//check tail
-			} else if (temp.next == null) {					
-				tail = tail.getPrevious();					
-			//set new links
-			} else {
-				Course<E> tempLt = temp.getPrevious();
-				Course<E> tempRt = temp.getNext();
-				tempLt.next = tempRt;					
+			if (temp.getPrevious() != null && temp.getNext() != null) {//set new links
+				temp.previous.next = temp.next;
+				temp.next.previous = temp.previous;
+				temp.previous = null;
+				temp.next = null;
+			} else if (temp.getPrevious() == null && temp.getNext() != null) {//check head
+				if (temp.getNext() == tail) {					
+					head = temp.getNext();
+					tail = temp.getNext();
+					temp.next.previous = null;
+					temp.next = null;
+					temp.previous = null;
+					
+				} else {
+					head = temp.getNext();
+					temp.next.previous = null;
+					temp.next = null;
+					temp.previous = null;
+				}		
+				
+			} else if (temp.getNext() == null && temp.getPrevious() != null) {//check tail	
+				if (temp.getPrevious() == head) {	
+					head = temp.getPrevious();
+					tail = temp.getPrevious();
+					temp.previous.next = null;
+					temp.previous = null;
+					temp.next = null;
+					
+				} else {
+					tail = temp.getPrevious();
+					temp.previous.next = null;					
+					temp.next = null;
+					temp.previous = null;
+				}
+				
+			} else {//check head/tail
+				temp = null;
+				head = null;
+				tail = null;
 			}
 			//update size
 			size--;
@@ -455,49 +481,20 @@ public class CourseList<E> implements Cloneable{
 		return temp;
 	}
 	
-	public void printCourseRecord(){
-		//list to store integers
-		List<Integer> cnt = new ArrayList<Integer>();
-		//instantiate with 10 the list of grades
-		//TODO make list size dynamic
-		Integer[] cntList = new Integer[10];
-		//print size
-		System.out.print("Number of nodes = " + size + "\n");
+	public void printList(){
+		System.out.print("Number of nodes = " + size + ", List is: ");
 		if (head != null){
-			//get current
-			Course<E> current = head;			
+			Course<E> current = head;
 		    while (current != null){
-		    	//add each grade to list
-		    	cnt.add(current.getNumberGrade());
-		    	//print title
-		    	System.out.println(current.title + " ");
-		    	//reset to next 
-		    	current = (Course<E>) current.getNext();
-		    }
-		    //set values in grade list
-		    for (int i = 0; i < cnt.size(); i++) {
-		    	cntList[i] = cnt.get(i);
-		    }
-		    //trimtosize
-		    if (cnt.size() < cntList.length) {
-		    	Integer[] newCntList = new Integer[cnt.size()];
-		    	System.arraycopy(cntList, 0, newCntList, 0, cnt.size());
-		    	cntList = newCntList;
-		    }
-		    //reset rec
-		    Course<E> newRec = head;
-		    //calc avg
-		    newRec.setGradePointAverage(newRec.calcAverage(cntList));
-		    //print gpa
-		    System.out.println("\nGPA: " + newRec.getGradePointAverage());
-
+			   System.out.print(current.data + " ");
+			   current = (Course<E>) current.getNext();
+		   }
 		}
 		else {
 			System.out.println("The list is empty");
 		}
 		System.out.println();
 	}
-	
 
 }
 

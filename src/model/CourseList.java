@@ -413,14 +413,47 @@ public class CourseList<E> implements Cloneable{
 	 * if node with e does not exist, return null
 	 * if node with e exists, return the pointer to the node
 	**/
-	public Course<E> findCourse(Course<E> p, E e){
+	public Course<E> findCourse(Course<E> p, String e){
 		Course<E> current = p;
 		while (current != null && current.data != e) {
 			current = (Course<E>) current.getNext();
+			if (current.title.equals(e)) {
+				return current;
+			}
 		}
 		return current; 
 	}
-
+	/** delete the course with data e
+	 * if a node with e does not exist, return null
+	 * if exists, delete the node and return the pointer to the deleted node
+	 * decrement the size
+	**/
+	public Course<E> deleteCourse(E e){
+		//new node with selected
+		Course<E> temp = findCourse(head, (String) e);		
+		//if selected is not there
+		if (temp == null) {
+			return null;
+		//set the data at link
+		} else {
+			//check head
+			if (temp.previous == null) {
+				head = head.getNext();
+			//check tail
+			} else if (temp.next == null) {					
+				tail = tail.getPrevious();					
+			//set new links
+			} else {
+				Course<E> tempLt = temp.getPrevious();
+				Course<E> tempRt = temp.getNext();
+				tempLt.next = tempRt;					
+			}
+			//update size
+			size--;
+		}
+		return temp;
+	}
+	
 	public void printCourseRecord(){
 		//list to store integers
 		List<Integer> cnt = new ArrayList<Integer>();

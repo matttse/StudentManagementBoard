@@ -143,19 +143,23 @@ public class StudentRecord<E> {
 						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 					} 
 					//enter course number
-					Object title = processInput.getAlphaNum("Course Name/ID: ");
-					Course<String> temp = new Course<String>(title.toString());
-					CourseList<Course> courses = new CourseList<Course>(studentRec.courses);
+					String title = processInput.getAlphaNum("Course Name/ID: ");
+					Course temp = new Course(title.toString());
+					CourseList courses = new CourseList(studentRec.courses);
 					//retreive course
-					Course<Course> courseFind = courses.findCourse(courses.head, temp);
-					
-					//delete course
-					courses.deleteNode(temp);
-					//update courses
-					CourseList<Object> newCourses = new CourseList<Object>(courses);
-					studentRec.setCourses(newCourses);
-					//update collection
-					StudentCollection.put(studentRec.student.id, studentRec); 
+//					Course courseFind = courses.findCourse(courses.head, temp);
+					Course courseFind = courses.findCourse(courses.head, title);
+					if (courseFind != null) {
+						//delete course
+						courses.deleteCourse(courseFind);
+						//update courses
+						CourseList<Object> newCourses = new CourseList<Object>(courses);
+						studentRec.setCourses(newCourses);
+						//update collection
+						StudentCollection.put(studentRec.student.id, studentRec); 						
+					} else {
+						System.out.println("Did not find course");
+					}
 					
 				}
 			

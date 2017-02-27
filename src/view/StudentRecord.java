@@ -94,52 +94,58 @@ public class StudentRecord<E> {
 						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 
 					} 
-					//Add Course to List//
-					Object title = processInput.getAlphaNum("Course Name/ID: ");
-					//instantiate new course
-					Course<String> newCourse = new Course<String>(title.toString());
-					//instantiate course list from student record
-					CourseList<Course> courses = new CourseList<Course>(studentRec.courses);
+					//enter course number
+					String title = processInput.getAlphaNum("Course Name/ID: ");
+					//retrieve course list on student record
+					CourseList courses = new CourseList(studentRec.courses);
+					//find course pointer
+					Course courseFind = courses.findCourse(courses.head, title);
+					if (courseFind == null) {//validate new course
+						//instantiate new course
+						Course<String> newCourse = new Course<String>(title.toString());
+						//Number of Credits
+						int numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
+						//validate Credits
+						while (numCredits > 4 || numCredits < 1) {
+							System.out.println("Credits cannot be more than 4.0 or less than 1.0");
+							numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
+						}
+						
+						//Letter Grade
+						ArrayList letterGradeList = new ArrayList();
+						letterGradeList.add("A");
+						letterGradeList.add("B");
+						letterGradeList.add("C");
+						letterGradeList.add("D");
+						letterGradeList.add("F");
+						
+						String letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
+						//validate letterGrade
+						while (!letterGradeList.contains(letterGrade.toUpperCase())) {
+							System.out.println("Must be A through F");
+							letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
+						}
+						
+						//set new course values
+						newCourse.setTitle((String) title);
+						newCourse.setCredits(numCredits);
+						newCourse.setLetterGrade(letterGrade.toUpperCase());
+						newCourse.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
+						
+						//add new course back to courses
+						courses.addToHead(newCourse);
+						courses.head.setCredits(numCredits);
+						courses.head.setTitle((String) title);
+						courses.head.setLetterGrade(letterGrade.toUpperCase());
+						courses.head.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
+						//add/update courses to the student record
+						studentRec.setCourses(courses);
+						//update collection
+						StudentCollection.put(studentRec.student.id, studentRec); 
+					} else {
+						System.out.println("Course already exists on this student record");
+					}//end if new course validation
 
-					//Number of Credits
-					int numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
-					//validate Credits
-					while (numCredits > 4 || numCredits < 1) {
-						System.out.println("Credits cannot be more than 4.0 or less than 1.0");
-						numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
-					}
-					
-					//Letter Grade
-					ArrayList letterGradeList = new ArrayList();
-					letterGradeList.add("A");
-					letterGradeList.add("B");
-					letterGradeList.add("C");
-					letterGradeList.add("D");
-					letterGradeList.add("F");
-					
-					String letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
-					//validate letterGrade
-					while (!letterGradeList.contains(letterGrade.toUpperCase())) {
-						System.out.println("Must be A through F");
-						letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
-					}
-					
-					//set new course values
-					newCourse.setTitle((String) title);
-					newCourse.setCredits(numCredits);
-					newCourse.setLetterGrade(letterGrade.toUpperCase());
-					newCourse.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
-					
-					//add new course back to courses
-					courses.addToHead(newCourse);
-					courses.head.setCredits(numCredits);
-					courses.head.setTitle((String) title);
-					courses.head.setLetterGrade(letterGrade.toUpperCase());
-					courses.head.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
-					//add/update courses to the student record
-					studentRec.setCourses(courses);
-					//update collection
-					StudentCollection.put(studentRec.student.id, studentRec); 
 				}//end if student collection size check
 
 			} else if (select == 3) {//Delete
@@ -172,7 +178,7 @@ public class StudentRecord<E> {
 						StudentCollection.put(studentRec.student.id, studentRec); 						
 					} else {
 						System.out.println("Did not find course");
-					}//end if course validation
+					}//end if course exists validation
 					
 				}//end if student collection size check
 			

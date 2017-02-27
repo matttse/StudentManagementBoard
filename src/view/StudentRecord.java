@@ -5,7 +5,6 @@ import model.CourseList.Course;
 import model.Student;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeMap;
 
 import dhl.UserInputHandler;
@@ -61,21 +60,24 @@ public class StudentRecord<E> {
 					System.out.println("Did not Enter Any Value");
 					studentRec.student.setId(processInput.getAlphaNum("Student ID: "));
 				}
-				
-				studentRec.student.setFName(processInput.getString("Enter First Name: "));
-				//validate student fName
-				while (studentRec.student.getFName().length() == 0) {
-					System.out.println("Did not Enter Any Value");
-					studentRec.student.setFName((String) processInput.getString("Enter First Name: "));
-				}
-				studentRec.student.setLName(processInput.getString("Enter Last Name: "));
-				//validate student lName
-				while (studentRec.student.getLName().length() == 0) {
-					System.out.println("Did not Enter Any Value");
-					studentRec.student.setLName((String) processInput.getString("Enter Last Name: "));
-				}
-				StudentCollection.put(studentRec.student.getId(), studentRec);
-				
+				//validate if student already exists
+				if (StudentCollection.containsKey(studentRec.student.getId()) == false) {					
+					studentRec.student.setFName(processInput.getString("Enter First Name: "));
+					//validate student fName
+					while (studentRec.student.getFName().length() == 0) {
+						System.out.println("Did not Enter Any Value");
+						studentRec.student.setFName((String) processInput.getString("Enter First Name: "));
+					}
+					studentRec.student.setLName(processInput.getString("Enter Last Name: "));
+					//validate student lName
+					while (studentRec.student.getLName().length() == 0) {
+						System.out.println("Did not Enter Any Value");
+						studentRec.student.setLName((String) processInput.getString("Enter Last Name: "));
+					}
+					StudentCollection.put(studentRec.student.getId(), studentRec);
+				} else {
+					System.out.println("Student ID already Exists");
+				}// end if student exists validation				
 			
 			} else if (select == 2) {//Add a Course to Student Record
 				//validate option
@@ -138,10 +140,8 @@ public class StudentRecord<E> {
 					studentRec.setCourses(courses);
 					//update collection
 					StudentCollection.put(studentRec.student.id, studentRec); 
-				}
+				}//end if student collection size check
 
-
-				
 			} else if (select == 3) {//Delete
 				//validate option
 				if (StudentCollection.size() == 0) {
@@ -172,9 +172,9 @@ public class StudentRecord<E> {
 						StudentCollection.put(studentRec.student.id, studentRec); 						
 					} else {
 						System.out.println("Did not find course");
-					}
+					}//end if course validation
 					
-				}
+				}//end if student collection size check
 			
 			} else if (select == 4) {//Print Record
 				//enter id				
@@ -221,7 +221,7 @@ public class StudentRecord<E> {
 	 * 
 	 * @Return void
 	 */
-	public void printStudentRecord(CourseList courseList){
+	public void printStudentRecord(CourseList<E> courseList){
 		//list to store integers
 		ArrayList<Integer> cnt = new ArrayList<Integer>();
 		//instantiate with 10 the list of grades

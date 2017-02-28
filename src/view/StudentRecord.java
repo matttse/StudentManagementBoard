@@ -97,9 +97,9 @@ public class StudentRecord<E> {
 					//enter course number
 					String title = processInput.getAlphaNum("Course Name/ID: ");
 					//retrieve course list on student record
-					CourseList courses = new CourseList(studentRec.courses);
+					CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
 					//find course pointer
-					Course courseFind = courses.findCourse(courses.head, title);
+					Course<Object> courseFind = courses.findCourse(courses.head, title);
 					if (courseFind == null) {//validate new course
 						//instantiate new course
 						Course<String> newCourse = new Course<String>(title.toString());
@@ -112,7 +112,7 @@ public class StudentRecord<E> {
 						}
 						
 						//Letter Grade
-						ArrayList letterGradeList = new ArrayList();
+						ArrayList<String> letterGradeList = new ArrayList<String>();
 						letterGradeList.add("A");
 						letterGradeList.add("B");
 						letterGradeList.add("C");
@@ -165,9 +165,9 @@ public class StudentRecord<E> {
 					//enter course number
 					String title = processInput.getAlphaNum("Course Name/ID: ");
 					//retrieve course list on student record
-					CourseList courses = new CourseList(studentRec.courses);
+					CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
 					//find course pointer
-					Course courseFind = courses.findCourse(courses.head, title);
+					Course<Object> courseFind = courses.findCourse(courses.head, title);
 					//validate course
 					if (courseFind != null) {
 						//delete course
@@ -197,7 +197,7 @@ public class StudentRecord<E> {
 						
 					} 
 					//retrieve course list on student record
-					CourseList courses = new CourseList(studentRec.courses);
+					CourseList<Student> courses = new CourseList(studentRec.courses);
 					studentRec.printStudentRecord(courses);					
 				}
 				

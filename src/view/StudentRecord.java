@@ -197,7 +197,7 @@ public class StudentRecord<E> {
 						
 					} 
 					//retrieve course list on student record
-					CourseList<Student> courses = new CourseList(studentRec.courses);
+					CourseList<Student> courses = new CourseList<Student>(studentRec.courses);
 					studentRec.printStudentRecord(courses);					
 				}
 				

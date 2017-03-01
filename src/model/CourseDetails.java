@@ -10,8 +10,9 @@ import java.util.ArrayList;
  *
  */
 public abstract class CourseDetails {
-	public String courseNumber;
-	public String courseName;	
+	
+	public String courseNumber;	
+	public String courseName;
 	public int numberOfCredits;
 	public char grade;
 	public int numberGrade;
@@ -85,36 +86,26 @@ public abstract class CourseDetails {
 	 */
 	public double calcAverage(ArrayList<Integer> cntr){
 		double sum = 0.0;
-		double avg = 0;		
+		double avg = 0.00;		
 		for (int i = 0; i < cntr.size(); i++) {
 			sum += Double.parseDouble(Integer.toString(cntr.get(i)));	
 		}
-		avg = (sum/cntr.size());
+		avg = Math.round(sum/cntr.size() * 100);
+		avg = avg/100;
 		return avg;
 	}//end calcAverage method
+
 	/**
-	 * @return the courseNumber
+	 * @return the courseName
 	 */
 	public String getCourseNumber() {
 		return courseNumber;
 	}
 	/**
-	 * @param courseNumber the courseNumber to set
+	 * @param courseName the courseName to set
 	 */
 	public void setCourseNumber(String courseNumber) {
 		this.courseNumber = courseNumber;
-	}
-	/**
-	 * @return the courseName
-	 */
-	public String getCourseName() {
-		return courseName;
-	}
-	/**
-	 * @param courseName the courseName to set
-	 */
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
 	}
 	/**
 	 * @return the numberOfCredits
@@ -163,6 +154,18 @@ public abstract class CourseDetails {
 	 */
 	public void setGradePointAverage(double gradePointAverage) {
 		this.gradePointAverage = gradePointAverage;
+	}
+	/**
+	 * @return the courseName
+	 */
+	public String getCourseName() {
+		return courseName;
+	}
+	/**
+	 * @param courseName the courseName to set
+	 */
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 
 }//end CourseDetails class

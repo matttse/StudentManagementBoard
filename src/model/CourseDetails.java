@@ -10,80 +10,14 @@ import java.util.ArrayList;
  *
  */
 public abstract class CourseDetails {
-	public int credits;
-	public String title;
-	public String letterGrade;
+	public String courseNumber;
+	public String courseName;	
+	public int numberOfCredits;
+	public char grade;
 	public int numberGrade;
 	public double gradePointAverage;
 
-	/**
-	 * @return the credits
-	 */
-	public int getCredits() {
-		return credits;
-	}
 
-	/**
-	 * @param credits the credits to set
-	 */
-	public void setCredits(int credits) {
-		this.credits = credits;
-	}
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
-	/**
-	 * @param title the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/**
-	 * @return the letterGrade
-	 */
-	public String getLetterGrade() {
-		return letterGrade;
-	}
-
-	/**
-	 * @param letterGrade the letterGrade to set
-	 */
-	public void setLetterGrade(String letterGrade) {
-		this.letterGrade = letterGrade;
-	}
-
-	/**
-	 * @return the numberGrade
-	 */
-	public int getNumberGrade() {
-		return numberGrade;
-	}
-
-	/**
-	 * @param numberGrade the numberGrade to set
-	 */
-	public void setNumberGrade(int numberGrade) {
-		this.numberGrade = numberGrade;
-	}
-
-	/**
-	 * @return the gradePointAverage
-	 */
-	public double getGradePointAverage() {
-		return gradePointAverage;
-	}
-
-	/**
-	 * @param gradePointAverage the gradePointAverage to set
-	 */
-	public void setGradePointAverage(double gradePointAverage) {
-		this.gradePointAverage = gradePointAverage;
-	}	
-	
 	/*
 	 * @Name: evalNumberGrade
 	 * 
@@ -158,5 +92,77 @@ public abstract class CourseDetails {
 		avg = (sum/cntr.size());
 		return avg;
 	}//end calcAverage method
+	/**
+	 * @return the courseNumber
+	 */
+	public String getCourseNumber() {
+		return courseNumber;
+	}
+	/**
+	 * @param courseNumber the courseNumber to set
+	 */
+	public void setCourseNumber(String courseNumber) {
+		this.courseNumber = courseNumber;
+	}
+	/**
+	 * @return the courseName
+	 */
+	public String getCourseName() {
+		return courseName;
+	}
+	/**
+	 * @param courseName the courseName to set
+	 */
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+	/**
+	 * @return the numberOfCredits
+	 */
+	public int getNumberOfCredits() {
+		return numberOfCredits;
+	}
+	/**
+	 * @param numberOfCredits the numberOfCredits to set
+	 */
+	public void setNumberOfCredits(int numberOfCredits) {
+		this.numberOfCredits = numberOfCredits;
+	}
+	/**
+	 * @return the grade
+	 */
+	public char getGrade() {
+		return grade;
+	}
+	/**
+	 * @param grade the grade to set
+	 */
+	public void setGrade(char grade) {
+		this.grade = grade;
+	}
+	/**
+	 * @return the numberGrade
+	 */
+	public int getNumberGrade() {
+		return numberGrade;
+	}
+	/**
+	 * @param numberGrade the numberGrade to set
+	 */
+	public void setNumberGrade(int numberGrade) {
+		this.numberGrade = numberGrade;
+	}
+	/**
+	 * @return the gradePointAverage
+	 */
+	public double getGradePointAverage() {
+		return gradePointAverage;
+	}
+	/**
+	 * @param gradePointAverage the gradePointAverage to set
+	 */
+	public void setGradePointAverage(double gradePointAverage) {
+		this.gradePointAverage = gradePointAverage;
+	}
 
 }//end CourseDetails class

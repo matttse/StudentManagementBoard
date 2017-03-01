@@ -1,22 +1,22 @@
 package view;
 
-import model.CourseList;
 import model.CourseList.Course;
+import model.CourseList;
 import model.Student;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import dhl.UserInputHandler;
 
 /**
- * @ClassName StudentRecord
+ * @ClassName StudentManagement
  * @author Matthew Tse
  * @Method main
  * @Method exit
  *
  */
-public class StudentRecord<E> {
+public class StudentManagement<E> {
 
 	public Student student = new Student();
 	public CourseList<E> courses = new CourseList<E>();
@@ -35,7 +35,7 @@ public class StudentRecord<E> {
 
 		// instantiate the handler
 		UserInputHandler<String> processInput = new UserInputHandler<String>();
-		TreeMap<String, StudentRecord> StudentCollection = new TreeMap<String, StudentRecord>();
+		HashMap<String, StudentManagement> StudentCollection = new HashMap<String, StudentManagement>();
 		// Option selector
 		while (completeFlag == 0) {
 
@@ -52,7 +52,7 @@ public class StudentRecord<E> {
 			
 			} else if (select == 1) {//Add a Student
 				//instantiate new student record
-				StudentRecord<Student> studentRec = new StudentRecord<Student>();	
+				StudentManagement<Student> studentRec = new StudentManagement<Student>();	
 				
 				studentRec.student.setId(processInput.getAlphaNum("Student ID: "));
 				//validate student id input
@@ -74,6 +74,12 @@ public class StudentRecord<E> {
 						System.out.println("Did not Enter Any Value");
 						studentRec.student.setLName((String) processInput.getString("Enter Last Name: "));
 					}
+					studentRec.student.setMajor(processInput.getString("Enter Major Name: "));
+					//validate student Major
+					while (studentRec.student.getMajor().length() == 0) {
+						System.out.println("Did not Enter Any Value");
+						studentRec.student.setMajor((String) processInput.getString("Enter Major: "));
+					}
 					StudentCollection.put(studentRec.student.getId(), studentRec);
 				} else {
 					System.out.println("Student ID already Exists");
@@ -85,66 +91,68 @@ public class StudentRecord<E> {
 					System.out.println("Need to Add a Student before Adding a Course.");
 				} else {
 					//course alphaNum
-					StudentRecord<Student> studentRec = new StudentRecord<Student>();
+					StudentManagement<Student> studentRec = new StudentManagement<Student>();
 					//enter id
 					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 					//Check Student ID
-					while (studentRec == null) {
+					if (studentRec == null) {
 						System.out.println("Student does not exist");
-						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
-
-					} 
-					//enter course number
-					String title = processInput.getAlphaNum("Course Name/ID: ");
-					//retrieve course list on student record
-					CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
-					//find course pointer
-					Course<Object> courseFind = courses.findCourse(courses.head, title);
-					if (courseFind == null) {//validate new course
-						//instantiate new course
-						Course<String> newCourse = new Course<String>(title.toString());
-						//Number of Credits
-						int numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
-						//validate Credits
-						while (numCredits > 4 || numCredits < 1) {
-							System.out.println("Credits cannot be more than 4.0 or less than 1.0");
-							numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
-						}
 						
-						//Letter Grade
-						ArrayList<String> letterGradeList = new ArrayList<String>();
-						letterGradeList.add("A");
-						letterGradeList.add("B");
-						letterGradeList.add("C");
-						letterGradeList.add("D");
-						letterGradeList.add("F");
-						
-						String letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
-						//validate letterGrade
-						while (!letterGradeList.contains(letterGrade.toUpperCase())) {
-							System.out.println("Must be A through F");
-							letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
-						}
-						
-						//set new course values
-						newCourse.setTitle((String) title);
-						newCourse.setCredits(numCredits);
-						newCourse.setLetterGrade(letterGrade.toUpperCase());
-						newCourse.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
-						
-						//add new course back to courses
-						courses.addToHead(newCourse);
-						courses.head.setCredits(numCredits);
-						courses.head.setTitle((String) title);
-						courses.head.setLetterGrade(letterGrade.toUpperCase());
-						courses.head.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
-						//add/update courses to the student record
-						studentRec.setCourses(courses);
-						//update collection
-						StudentCollection.put(studentRec.student.id, studentRec); 
 					} else {
-						System.out.println("Course already exists on this student record");
-					}//end if new course validation
+						//enter course number
+						String title = processInput.getAlphaNum("Course Name/ID: ");
+						//retrieve course list on student record
+						CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
+						//find course pointer
+						Course<Object> courseFind = courses.findCourse(courses.head, title);
+						if (courseFind != null) {//validate new course
+							System.out.println("Course already exists on this student record");
+						} else {
+							//instantiate new course
+							Course<String> newCourse = new Course<String>(title.toString());
+							//Number of Credits
+							int numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
+							//validate Credits
+							while (numCredits > 4 || numCredits < 1) {
+								System.out.println("Credits cannot be more than 4.0 or less than 1.0");
+								numCredits = Integer.parseInt(processInput.getNum("Number of Credits: ", 1));
+							}
+							
+							//Letter Grade
+							ArrayList<String> letterGradeList = new ArrayList<String>();
+							letterGradeList.add("A");
+							letterGradeList.add("B");
+							letterGradeList.add("C");
+							letterGradeList.add("D");
+							letterGradeList.add("F");
+							
+							String letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
+							//validate letterGrade
+							while (!letterGradeList.contains(letterGrade.toUpperCase())) {
+								System.out.println("Must be A through F");
+								letterGrade = processInput.getString("Enter Letter Grade (i.e. A-F)");
+							}
+							
+							//set new course values
+							newCourse.setCourseName(((String) title));
+							newCourse.setNumberOfCredits(numCredits);
+							newCourse.setGrade(letterGrade.toUpperCase().charAt(0));
+							newCourse.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
+							
+							//add new course back to courses
+							courses.addToHead(newCourse);
+							courses.head.setNumberOfCredits(numCredits);
+							courses.head.setCourseName((String) title);
+							courses.head.setGrade(letterGrade.toUpperCase().charAt(0));
+							courses.head.setNumberGrade(newCourse.evalNumberGrade(letterGrade.toUpperCase()));
+							//add/update courses to the student record
+							studentRec.setCourses(courses);
+							//update collection
+							StudentCollection.put(studentRec.student.id, studentRec); 
+						}//end if new course validation
+						
+					}//end student validation
+					
 
 				}//end if student collection size check
 
@@ -154,31 +162,32 @@ public class StudentRecord<E> {
 					System.out.println("Need to Add a Student before Deleting a Course.");
 				} else {
 					//instantiate new student record
-					StudentRecord<Student> studentRec = new StudentRecord<Student>();
+					StudentManagement<Student> studentRec = new StudentManagement<Student>();
 					//enter id to set student record file
 					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 					//validate student
-					while (studentRec == null) {
-						System.out.println("Student does not exist");
-						studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
-					} 
-					//enter course number
-					String title = processInput.getAlphaNum("Course Name/ID: ");
-					//retrieve course list on student record
-					CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
-					//find course pointer
-					Course<Object> courseFind = courses.findCourse(courses.head, title);
-					//validate course
-					if (courseFind != null) {
-						//delete course
-						courses.deleteCourse(courses.head, courseFind);
-						//update courses
-						studentRec.setCourses(courses);
-						//update collection
-						StudentCollection.put(studentRec.student.id, studentRec); 						
+					if (studentRec != null) {
+						//enter course number
+						String title = processInput.getAlphaNum("Course Name/ID: ");
+						//retrieve course list on student record
+						CourseList<Object> courses = new CourseList<Object>(studentRec.courses);
+						//find course pointer
+						Course<Object> courseFind = courses.findCourse(courses.head, title);
+						//validate course
+						if (courseFind != null) {
+							//delete course
+							courses.deleteCourse(courses.head, courseFind);
+							//update courses
+							studentRec.setCourses(courses);
+							//update collection
+							StudentCollection.put(studentRec.student.id, studentRec); 						
+						} else {
+							System.out.println("Did not find course");
+						}//end if course exists validation
 					} else {
-						System.out.println("Did not find course");
-					}//end if course exists validation
+						System.out.println("Student does not exist");
+						
+					}//end student validation
 					
 				}//end if student collection size check
 			
@@ -187,7 +196,7 @@ public class StudentRecord<E> {
 				if (StudentCollection.size() == 0) {
 					System.out.println("No Students added yet");
 				} else {
-					StudentRecord<Student> studentRec = new StudentRecord<Student>();
+					StudentManagement<Student> studentRec = new StudentManagement<Student>();
 					//enter id
 					studentRec = StudentCollection.get(processInput.getAlphaNum("Student ID: "));
 					//validate student
@@ -230,8 +239,7 @@ public class StudentRecord<E> {
 	public void printStudentRecord(CourseList<E> courseList){
 		//list to store integers
 		ArrayList<Integer> cnt = new ArrayList<Integer>();
-		//instantiate with 10 the list of grades
-		//TODO make list size dynamic
+		//check list size
 		if (courseList.size > 0) {
 			ArrayList<Integer> cntr = new ArrayList<Integer>();
 			//print size
@@ -244,7 +252,7 @@ public class StudentRecord<E> {
 			    	//add each grade to list
 			    	cnt.add(current.getNumberGrade());
 			    	//print title
-			    	System.out.println(current.title + " ");
+			    	System.out.println(current.courseName + " ");
 			    	//reset to next 
 			    	current = (Course<E>) current.getNext();
 			    }
@@ -263,7 +271,7 @@ public class StudentRecord<E> {
 			}
 			
 		} else {
-			System.out.println("The list is empty");
+			System.out.println("No Courses to Display");
 		}
 
 		System.out.println();

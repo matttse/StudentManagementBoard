@@ -3,11 +3,6 @@
  */
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import model.CourseList.Course;
-
 
 /**
  * @author Matthew Tse
@@ -416,7 +411,7 @@ public class CourseList<E> implements Cloneable{
 	public Course<E> findCourse(Course<E> p, E e){
 		Course<E> current = p;
 		
-		while (current != null && !current.title.equals(e)) {
+		while (current != null && !current.courseName.equals(e)) {
 			current = (Course<E>) current.getNext();
 		}
 		return current; 
@@ -429,7 +424,7 @@ public class CourseList<E> implements Cloneable{
 	public Course<E> deleteCourse(Course<E> p, E e){
 		Course<E> stat = (Course<E>) e;
 		//new node with selected
-		Course<E> temp = findCourse(p, (E) stat.title);	
+		Course<E> temp = findCourse(p, (E) stat.courseName);	
 		//if selected is not there
 		if (temp == null) {
 			return null;

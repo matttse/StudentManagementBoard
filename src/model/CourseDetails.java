@@ -94,6 +94,35 @@ public abstract class CourseDetails {
 		avg = avg/100;
 		return avg;
 	}//end calcAverage method
+	/*
+	 * @Name: calcAverage
+	 * 
+	 * @Function/Purpose: Calculates average
+	 * 
+	 * @Parameters:
+	 * 		{ArrayList Integer} list of integers
+	 * @Additionl Comments: All input must be passed as an ArrayList
+	 * 
+	 * @Return double average value
+	 */
+	public double calcWeightedAverage(ArrayList<Integer> cntr, ArrayList<String> creditCnt){
+		double score = 0.0;
+		double wAvg = 0.0;		
+		int creditTotal = 0;
+		for (int i = 0; i < cntr.size(); i++) {
+			//multiply each numeric grade by credits and summate
+			score +=
+					(Double.parseDouble(Integer.toString(cntr.get(i))))
+					*(Double.parseDouble((creditCnt.get(i))));
+			//track credit total
+			creditTotal += Integer.parseInt(creditCnt.get(i));
+					
+		}
+		//total score / total credits
+		wAvg = Math.round(score/creditTotal * 100);
+		wAvg = wAvg/100;
+		return wAvg;
+	}//end calcAverage method
 
 	/**
 	 * @return the courseName

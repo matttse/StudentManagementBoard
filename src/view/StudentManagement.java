@@ -276,6 +276,7 @@ public class StudentManagement<E> {
 	public void printStudentRecord(CourseList<E> courseList){
 		//list to store integers
 		ArrayList<Integer> cnt = new ArrayList<Integer>();
+		ArrayList<String> creditCnt = new ArrayList<String>();
 		//check list size
 		if (courseList.size > 0) {
 			ArrayList<Integer> cntr = new ArrayList<Integer>();
@@ -289,10 +290,12 @@ public class StudentManagement<E> {
 			    while (current != null){
 			    	//add each grade to list
 			    	cnt.add(current.getNumberGrade());
+			    	creditCnt.add(Integer.toString(current.getNumberOfCredits()));
 			    	//print title
 			    	System.out.println(current.courseNumber
 			    			+ ", " + current.courseName
 			    			+ ", " + current.grade);
+			    	
 			    	//reset to next 
 			    	current = (Course<E>) current.getNext();
 			    }
@@ -304,7 +307,7 @@ public class StudentManagement<E> {
 			    //reset rec
 			    Course<E> newRec = courseList.head;
 			    //calc avg
-			    newRec.setGradePointAverage(newRec.calcAverage(cntr));
+			    newRec.setGradePointAverage(newRec.calcWeightedAverage(cntr, creditCnt));
 			    //print gpa
 			    System.out.println("\nCumulative GPA: " + newRec.getGradePointAverage());
 
